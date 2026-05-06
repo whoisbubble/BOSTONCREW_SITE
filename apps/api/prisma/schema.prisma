@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum PaymentStatus {
+  PENDING
+  CONFIRMED
+  CANCELED
+  CHARGEBACKED
+  FAILED
+  EXPIRED
+}
+
+enum LicenseStatus {
+  NEW
+  ACTIVATED
+  REVOKED
+  REFUNDED
+}
+
+model Payment {
+  id                    String        @id @default(cuid())
+  publicId              String        @unique @default(uuid())
+  accessToken           String
+  providerTransactionId String?       @unique
+  providerStatus        String?
+  amount                Int
+  currency              String        @default("RUB")
+  customerEmail         String?
+  description           String
+  status                PaymentStatus @default(PENDING)
+  confirmedAt           DateTime?
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  license               License?
+  events                PaymentEvent[]
+}
+
+model PaymentEvent {
+  id                    String   @id @default(cuid())
+  paymentId             String?
+  providerTransactionId String?
+  status                String
+  payload               String
+  headers               String?
+  createdAt             DateTime @default(now())
+  payment               Payment? @relation(fields: [paymentId], references: [id])
+}
+
+model License {
+  id                String        @id @default(cuid())
+  key               String        @unique
+  status            LicenseStatus @default(NEW)
+  deviceFingerprint String?
+  activatedAt       DateTime?
+  lastCheckAt       DateTime?
+  paymentId         String?       @unique
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  payment           Payment?      @relation(fields: [paymentId], references: [id])
+}
