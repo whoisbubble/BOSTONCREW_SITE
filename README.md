@@ -6,7 +6,7 @@
 - `apps/api` - Nest API для оплаты Platega, webhook, выдачи ключей и активации приложения;
 - база по умолчанию - Prisma + SQLite.
 
-Ключ стоит `500` рублей и активируется на одном устройстве.
+Цена ключа берется из `PRODUCT_PRICE_RUB` и активируется на одном устройстве.
 
 ## Сценарий оплаты
 
@@ -28,7 +28,7 @@
 ```env
 PUBLIC_SITE_URL="https://bostoncrew.ru"
 API_PUBLIC_URL="https://bostoncrew.ru"
-NEXT_PUBLIC_API_URL="https://bostoncrew.ru/api"
+NEXT_PUBLIC_API_URL="/api"
 DOWNLOAD_ARCHIVE_NAME="bostoncrew-sampler.zip"
 
 API_PORT=4000
@@ -99,6 +99,8 @@ CORS_ORIGIN="http://localhost:3000"
 PLATEGA_RETURN_URL="http://localhost:3000/success"
 PLATEGA_FAILED_URL="http://localhost:3000/cancel"
 ```
+
+На production лучше держать `NEXT_PUBLIC_API_URL="/api"` и проксировать `/api/` через nginx на Nest. Так браузер не будет обращаться к `localhost:4000`.
 
 Если на Windows в пути с кириллицей `prisma migrate dev` падает с коротким `Schema engine error`, примените миграцию SQL напрямую:
 

@@ -1,6 +1,30 @@
-const fallbackApiUrl = 'http://localhost:4000/api';
+const fallbackApiUrl = '/api';
+const configuredApiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-export const apiUrl = (process.env.NEXT_PUBLIC_API_URL ?? fallbackApiUrl).replace(/\/$/, '');
+export function getApiUrl() {
+  if (!configuredApiUrl) {
+    return fallbackApiUrl;
+  }
+
+  if (typeof window !== 'undefined') {
+    try {
+      const configuredUrl = new URL(configuredApiUrl);
+      const pageHost = window.location.hostname;
+
+      if (
+        configuredUrl.hostname === 'localhost' &&
+        pageHost !== 'localhost' &&
+        pageHost !== '127.0.0.1'
+      ) {
+        return fallbackApiUrl;
+      }
+    } catch {
+      return configuredApiUrl.replace(/\/$/, '');
+    }
+  }
+
+  return configuredApiUrl.replace(/\/$/, '');
+}
 
 export type CheckoutResponse = {
   orderId: string;
@@ -23,8 +47,13 @@ export type OrderResponse = {
   message: string;
 };
 
+export type PublicConfigResponse = {
+  productPriceRub: number;
+  currency: 'RUB';
+};
+
 export async function createCheckout() {
-  const response = await fetch(`${apiUrl}/payments/checkout`, {
+  const response = await fetch(`${getApiUrl()}/payments/checkout`, {
     method: 'POST',
   });
 
@@ -37,7 +66,7 @@ export async function createCheckout() {
 
 export async function getOrder(orderId: string, token: string) {
   const params = new URLSearchParams({ token });
-  const response = await fetch(`${apiUrl}/payments/orders/${orderId}?${params.toString()}`, {
+  const response = await fetch(`${getApiUrl()}/payments/orders/${orderId}?${params.toString()}`, {
     cache: 'no-store',
   });
 
@@ -46,4 +75,16 @@ export async function getOrder(orderId: string, token: string) {
   }
 
   return (await response.json()) as OrderResponse;
+}
+
+export async function getPublicConfig() {
+  const response = await fetch(`${getApiUrl()}/public/config`, {
+    cache: 'no-store',
+  });
+
+  if (!response.ok) {
+    throw new Error('Не удалось получить настройки сайта.');
+  }
+
+  return (await response.json()) as PublicConfigResponse;
 }

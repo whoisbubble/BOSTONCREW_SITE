@@ -164,7 +164,7 @@ export default function Home() {
           </p>
           <div className="hero-actions">
             <a className="primary-link" href="#license">
-              Купить за 500 RUB
+              Купить ключ
             </a>
             <a className="secondary-link" href="/download">
               <Download size={18} />

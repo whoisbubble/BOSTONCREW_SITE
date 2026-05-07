@@ -1,12 +1,37 @@
 'use client';
 
 import { ArrowRight, Loader2, ShieldCheck } from 'lucide-react';
-import { FormEvent, useState } from 'react';
-import { createCheckout } from '../lib/api';
+import { FormEvent, useEffect, useState } from 'react';
+import { createCheckout, getPublicConfig } from '../lib/api';
 
 export function CheckoutButton() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [price, setPrice] = useState<number | null>(null);
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadConfig() {
+      try {
+        const config = await getPublicConfig();
+
+        if (active) {
+          setPrice(config.productPriceRub);
+        }
+      } catch {
+        if (active) {
+          setPrice(null);
+        }
+      }
+    }
+
+    void loadConfig();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -26,7 +51,7 @@ export function CheckoutButton() {
     <form className="checkout" onSubmit={handleSubmit}>
       <div className="checkout-head">
         <span>Доступ на одно устройство</span>
-        <strong>500 RUB</strong>
+        <strong>{price === null ? '...' : `${new Intl.NumberFormat('ru-RU').format(price)} RUB`}</strong>
       </div>
       <div className="checkout-row single">
         <button type="submit" disabled={loading}>
