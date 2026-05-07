@@ -6,7 +6,6 @@ CREATE TABLE "Payment" (
   "providerStatus" TEXT,
   "amount" INTEGER NOT NULL,
   "currency" TEXT NOT NULL DEFAULT 'RUB',
-  "customerEmail" TEXT,
   "description" TEXT NOT NULL,
   "status" TEXT NOT NULL DEFAULT 'PENDING',
   "confirmedAt" DATETIME,

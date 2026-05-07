@@ -24,9 +24,9 @@ export function safeEqual(left?: string, right?: string) {
   return leftBuffer.length === rightBuffer.length && timingSafeEqual(leftBuffer, rightBuffer);
 }
 
-export function signOfflineLicense(payload: Record<string, unknown>, secret: string) {
+export function createOfflineLicenseToken(payload: Record<string, unknown>, secret: string) {
   const encodedPayload = Buffer.from(JSON.stringify(payload)).toString('base64url');
-  const signature = createHmac('sha256', secret).update(encodedPayload).digest('base64url');
+  const digest = createHmac('sha256', secret).update(encodedPayload).digest('base64url');
 
-  return `${encodedPayload}.${signature}`;
+  return `${encodedPayload}.${digest}`;
 }

@@ -1,7 +1,7 @@
 import { ConflictException, ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { LicenseStatus } from '@prisma/client';
-import { signOfflineLicense } from '../common/tokens';
+import { createOfflineLicenseToken } from '../common/tokens';
 import { PrismaService } from '../prisma/prisma.service';
 import { LicenseRequestDto } from './dto/license-request.dto';
 
@@ -115,9 +115,8 @@ export class LicensesService {
         lastCheckAt: license.lastCheckAt,
       },
       offline: {
-        token: signOfflineLicense(offlinePayload, this.signingSecret),
+        token: createOfflineLicenseToken(offlinePayload, this.tokenSecret),
         issuedAt,
-        algorithm: 'base64url-json.hmac-sha256',
       },
     };
   }
@@ -140,7 +139,7 @@ export class LicensesService {
     return deviceFingerprint.trim().toLowerCase();
   }
 
-  private get signingSecret() {
-    return this.configService.get<string>('LICENSE_SIGNING_SECRET') ?? 'development-only-change-me';
+  private get tokenSecret() {
+    return this.configService.get<string>('LICENSE_TOKEN_SECRET') ?? 'development-only-change-me';
   }
 }

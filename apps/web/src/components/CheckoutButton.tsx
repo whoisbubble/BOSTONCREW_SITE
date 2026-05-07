@@ -5,7 +5,6 @@ import { FormEvent, useState } from 'react';
 import { createCheckout } from '../lib/api';
 
 export function CheckoutButton() {
-  const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -15,7 +14,7 @@ export function CheckoutButton() {
     setLoading(true);
 
     try {
-      const checkout = await createCheckout(email.trim());
+      const checkout = await createCheckout();
       window.location.href = checkout.checkoutUrl;
     } catch (checkoutError) {
       setError(checkoutError instanceof Error ? checkoutError.message : 'Ошибка оплаты.');
@@ -25,25 +24,18 @@ export function CheckoutButton() {
 
   return (
     <form className="checkout" onSubmit={handleSubmit}>
-      <label className="checkout-label" htmlFor="email">
-        Email для поддержки
-      </label>
-      <div className="checkout-row">
-        <input
-          id="email"
-          type="email"
-          placeholder="you@example.com"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          disabled={loading}
-        />
+      <div className="checkout-head">
+        <span>Доступ на одно устройство</span>
+        <strong>500 RUB</strong>
+      </div>
+      <div className="checkout-row single">
         <button type="submit" disabled={loading}>
           {loading ? <Loader2 className="spin" size={18} /> : <ShieldCheck size={18} />}
           <span>Купить ключ</span>
           {!loading && <ArrowRight size={18} />}
         </button>
       </div>
-      <p className="checkout-note">500 RUB, один ключ привязывается к одному устройству.</p>
+      <p className="checkout-note">После подтверждения Platega ключ появится прямо на сайте.</p>
       {error && <p className="checkout-error">{error}</p>}
     </form>
   );

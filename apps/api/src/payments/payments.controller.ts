@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Headers, HttpCode, Param, Post, Query } from '@nestjs/common';
 import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
-import { CreateCheckoutDto } from './dto/create-checkout.dto';
 import { PlategaWebhookDto } from './dto/platega-webhook.dto';
 import { PaymentsService } from './payments.service';
 
@@ -11,8 +10,8 @@ export class PaymentsController {
 
   @Post('checkout')
   @ApiOperation({ summary: 'Создать заказ и ссылку Platega на оплату ключа' })
-  createCheckout(@Body() dto: CreateCheckoutDto) {
-    return this.paymentsService.createCheckout(dto);
+  createCheckout() {
+    return this.paymentsService.createCheckout();
   }
 
   @Get('orders/:publicId')

@@ -31,7 +31,6 @@ model Payment {
   providerStatus        String?
   amount                Int
   currency              String        @default("RUB")
-  customerEmail         String?
   description           String
   status                PaymentStatus @default(PENDING)
   confirmedAt           DateTime?

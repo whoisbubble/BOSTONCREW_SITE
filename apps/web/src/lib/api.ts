@@ -23,11 +23,9 @@ export type OrderResponse = {
   message: string;
 };
 
-export async function createCheckout(customerEmail?: string) {
+export async function createCheckout() {
   const response = await fetch(`${apiUrl}/payments/checkout`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ customerEmail: customerEmail || undefined }),
   });
 
   if (!response.ok) {

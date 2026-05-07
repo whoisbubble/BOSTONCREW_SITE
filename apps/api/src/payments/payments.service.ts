@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import { Payment, PaymentStatus, Prisma } from '@prisma/client';
 import { generateLicenseKey, randomToken } from '../common/tokens';
 import { PrismaService } from '../prisma/prisma.service';
-import { CreateCheckoutDto } from './dto/create-checkout.dto';
 import { PlategaWebhookDto } from './dto/platega-webhook.dto';
 import { PlategaService, PlategaTransactionResponse } from './platega.service';
 
@@ -15,7 +14,7 @@ export class PaymentsService {
     private readonly plategaService: PlategaService,
   ) {}
 
-  async createCheckout(dto: CreateCheckoutDto) {
+  async createCheckout() {
     const amount = Number(this.configService.get<string>('PRODUCT_PRICE_RUB') ?? 500);
     const currency = 'RUB';
     const accessToken = randomToken();
@@ -24,7 +23,6 @@ export class PaymentsService {
         accessToken,
         amount,
         currency,
-        customerEmail: dto.customerEmail,
         description: 'BOSTONCREW SAMPLER license for one device',
       },
     });
