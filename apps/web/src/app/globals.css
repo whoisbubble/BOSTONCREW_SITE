@@ -15,10 +15,6 @@
   --amber: #f4c15d;
   --danger: #ff5268;
   --shadow: 0 28px 90px rgba(0, 0, 0, 0.5);
-  --pointer-x: 0px;
-  --pointer-y: 0px;
-  --scroll-drift: 0px;
-  --scroll-progress: 0;
 }
 
 * {
@@ -58,7 +54,6 @@ body::before {
   background:
     repeating-linear-gradient(115deg, transparent 0 23px, rgba(43, 215, 213, 0.04) 24px 25px),
     linear-gradient(180deg, rgba(187, 18, 49, 0.18), transparent 28rem);
-  transform: translateY(calc(var(--scroll-drift) * -0.18));
 }
 
 a {
@@ -223,7 +218,6 @@ nav a:hover,
     linear-gradient(90deg, transparent, rgba(244, 193, 93, 0.12)),
     repeating-linear-gradient(0deg, rgba(255, 248, 242, 0.06) 0 1px, transparent 1px 12px);
   clip-path: polygon(12% 0, 100% 18%, 88% 100%, 0 80%);
-  transform: translateY(calc(var(--scroll-drift) * 0.22));
 }
 
 .hero-copy {
@@ -350,8 +344,6 @@ nav a:hover,
   z-index: 1;
   min-width: 0;
   width: 100%;
-  transform: translate3d(var(--pointer-x), var(--pointer-y), 0);
-  transition: transform 220ms ease-out;
 }
 
 .deck-stage {
@@ -372,7 +364,6 @@ nav a:hover,
     linear-gradient(180deg, rgba(244, 193, 93, 0.08) 1px, transparent 1px);
   background-size: 48px 48px;
   clip-path: polygon(6% 0, 100% 5%, 92% 100%, 0 88%);
-  transform: translateY(calc(var(--scroll-drift) * -0.12));
 }
 
 .deck-card {
@@ -383,23 +374,11 @@ nav a:hover,
   border-radius: 8px;
   background: rgba(16, 12, 12, 0.92);
   box-shadow: var(--shadow);
-  cursor: grab;
-  touch-action: none;
-  user-select: none;
-  transform: translate3d(var(--drag-x), var(--drag-y), 0) rotate(var(--rotate));
+  transform: rotate(var(--rotate));
   transform-origin: center;
   transition:
     border-color 180ms ease,
-    box-shadow 180ms ease,
-    scale 180ms ease;
-  will-change: transform;
-}
-
-.deck-card.is-active {
-  border-color: rgba(43, 215, 213, 0.72);
-  cursor: grabbing;
-  scale: 1.02;
-  box-shadow: 0 30px 96px rgba(43, 215, 213, 0.18), var(--shadow);
+    box-shadow 180ms ease;
 }
 
 .deck-card-bar {
@@ -432,23 +411,6 @@ nav a:hover,
   object-fit: contain;
   padding: 0.65rem;
   background: #080606;
-}
-
-.deck-reset {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  z-index: 30;
-  display: inline-grid;
-  width: 2.55rem;
-  height: 2.55rem;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  color: var(--text);
-  background: rgba(8, 6, 6, 0.74);
-  cursor: pointer;
-  backdrop-filter: blur(14px);
 }
 
 .ticker-band {
@@ -570,7 +532,6 @@ details p,
   pointer-events: none;
   content: "";
   background: repeating-linear-gradient(90deg, transparent 0 70px, rgba(146, 227, 107, 0.05) 71px 72px);
-  transform: translateX(calc(var(--scroll-drift) * -0.18));
 }
 
 .interfaces-grid {

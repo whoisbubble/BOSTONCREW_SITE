@@ -14,7 +14,6 @@ import {
 import { CheckoutButton } from '../components/CheckoutButton';
 import { InteractiveDeck } from '../components/InteractiveDeck';
 import { LegalTabs } from '../components/LegalTabs';
-import { ScrollFX } from '../components/ScrollFX';
 
 const features = [
   {
@@ -136,8 +135,6 @@ const tickerItems = [
 export default function Home() {
   return (
     <main className="site-shell">
-      <ScrollFX />
-
       <header className="site-header">
         <a className="brand" href="#top" aria-label="BOSTONCREW SAMPLER">
           <span className="brand-mark" aria-hidden="true">

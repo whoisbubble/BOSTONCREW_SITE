@@ -1,20 +1,4 @@
-'use client';
-
-import { RotateCcw } from 'lucide-react';
-import { CSSProperties, PointerEvent, useRef, useState } from 'react';
-
-type Offset = {
-  x: number;
-  y: number;
-};
-
-type DragState = {
-  id: string;
-  originX: number;
-  originY: number;
-  startX: number;
-  startY: number;
-};
+import type { CSSProperties } from 'react';
 
 type DeckCard = {
   alt: string;
@@ -81,86 +65,21 @@ const cards: DeckCard[] = [
 ];
 
 export function InteractiveDeck() {
-  const [offsets, setOffsets] = useState<Record<string, Offset>>({});
-  const [active, setActive] = useState<string | null>(null);
-  const drag = useRef<DragState | null>(null);
-
-  function startDrag(event: PointerEvent<HTMLElement>, id: string) {
-    const offset = offsets[id] ?? { x: 0, y: 0 };
-
-    drag.current = {
-      id,
-      originX: offset.x,
-      originY: offset.y,
-      startX: event.clientX,
-      startY: event.clientY,
-    };
-
-    setActive(id);
-    event.currentTarget.setPointerCapture(event.pointerId);
-  }
-
-  function moveDrag(event: PointerEvent<HTMLElement>) {
-    if (!drag.current) {
-      return;
-    }
-
-    const nextOffset = {
-      x: drag.current.originX + event.clientX - drag.current.startX,
-      y: drag.current.originY + event.clientY - drag.current.startY,
-    };
-
-    setOffsets((current) => ({
-      ...current,
-      [drag.current!.id]: nextOffset,
-    }));
-  }
-
-  function stopDrag(event: PointerEvent<HTMLElement>) {
-    if (!drag.current) {
-      return;
-    }
-
-    try {
-      event.currentTarget.releasePointerCapture(event.pointerId);
-    } catch {
-      // The browser may have already released capture after a gesture cancel.
-    }
-
-    drag.current = null;
-    setActive(null);
-  }
-
   return (
     <div className="deck-stage" aria-label="Интерфейсы приложения BOSTONCREW SAMPLER">
-      <button className="deck-reset" type="button" onClick={() => setOffsets({})} title="Сбросить карточки">
-        <RotateCcw size={17} />
-      </button>
-
       <div className="deck-gridlines" aria-hidden="true" />
 
       {cards.map((card) => {
-        const offset = offsets[card.id] ?? { x: 0, y: 0 };
         const style = {
           left: card.left,
           top: card.top,
           width: card.width,
-          zIndex: active === card.id ? 20 : card.depth,
-          '--drag-x': `${offset.x}px`,
-          '--drag-y': `${offset.y}px`,
+          zIndex: card.depth,
           '--rotate': `${card.rotate}deg`,
         } as CSSProperties;
 
         return (
-          <article
-            className={`deck-card${active === card.id ? ' is-active' : ''}`}
-            key={card.id}
-            onPointerCancel={stopDrag}
-            onPointerDown={(event) => startDrag(event, card.id)}
-            onPointerMove={moveDrag}
-            onPointerUp={stopDrag}
-            style={style}
-          >
+          <article className="deck-card" key={card.id} style={style}>
             <div className="deck-card-bar">
               <span>{card.badge}</span>
               <strong>{card.title}</strong>
