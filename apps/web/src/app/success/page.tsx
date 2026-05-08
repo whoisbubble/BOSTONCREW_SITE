@@ -6,6 +6,20 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense, useEffect, useState } from 'react';
 import { getOrder, OrderResponse } from '../../lib/api';
 
+function Brand() {
+  return (
+    <Link className="brand status-brand" href="/">
+      <span className="brand-mark" aria-hidden="true">
+        <img src="/brand/pnglogo.png" alt="" />
+      </span>
+      <span className="brand-text">
+        <strong>BOSTONCREW</strong>
+        <span>SAMPLER</span>
+      </span>
+    </Link>
+  );
+}
+
 function SuccessContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get('orderId') ?? '';
@@ -60,14 +74,15 @@ function SuccessContent() {
 
   return (
     <main className="status-page">
-      <Link className="brand status-brand" href="/">
-        <span className="brand-mark">BC</span>
-        <span>BOSTONCREW SAMPLER</span>
-      </Link>
+      <Brand />
       <section className="status-panel">
         {order?.status === 'CONFIRMED' ? <CheckCircle2 size={34} /> : <Loader2 className="spin" size={34} />}
         <h1>{order?.status === 'CONFIRMED' ? 'Ключ готов' : 'Ждем подтверждение оплаты'}</h1>
-        <p>{error || order?.message || 'Platega обрабатывает платеж. Обычно это занимает несколько секунд.'}</p>
+        <p>
+          {error ||
+            order?.message ||
+            'Platega обрабатывает платеж. Обычно это занимает несколько секунд, страница обновит статус автоматически.'}
+        </p>
 
         {order?.licenseKey && (
           <div className="key-box">

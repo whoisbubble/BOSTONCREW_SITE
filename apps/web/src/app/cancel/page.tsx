@@ -5,8 +5,13 @@ export default function CancelPage() {
   return (
     <main className="status-page">
       <Link className="brand status-brand" href="/">
-        <span className="brand-mark">BC</span>
-        <span>BOSTONCREW SAMPLER</span>
+        <span className="brand-mark" aria-hidden="true">
+          <img src="/brand/pnglogo.png" alt="" />
+        </span>
+        <span className="brand-text">
+          <strong>BOSTONCREW</strong>
+          <span>SAMPLER</span>
+        </span>
       </Link>
       <section className="status-panel">
         <CircleX size={34} />

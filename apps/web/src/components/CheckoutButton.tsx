@@ -60,7 +60,10 @@ export function CheckoutButton() {
           {!loading && <ArrowRight size={18} />}
         </button>
       </div>
-      <p className="checkout-note">После подтверждения Platega ключ появится прямо на сайте.</p>
+      <p className="checkout-note">
+        После подтверждения оплаты ключ появится прямо на сайте. Нажимая кнопку, вы принимаете{' '}
+        <a href="#legal">условия сервиса</a>.
+      </p>
       {error && <p className="checkout-error">{error}</p>}
     </form>
   );
