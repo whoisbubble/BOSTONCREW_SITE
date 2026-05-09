@@ -11,6 +11,7 @@
     "dev:web": "npm run dev -w apps/web",
     "dev:api": "npm run dev -w apps/api",
     "build": "npm run build -w apps/api && npm run build -w apps/web",
+    "keys:generate": "npm run licenses:generate -w apps/api --",
     "lint": "npm run lint -w apps/web",
     "prisma:generate": "npm run prisma:generate -w apps/api",
     "prisma:migrate": "npm run prisma:migrate -w apps/api"

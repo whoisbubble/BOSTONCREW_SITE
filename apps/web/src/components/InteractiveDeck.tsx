@@ -29,8 +29,8 @@ const cards: DeckCard[] = [
   {
     id: 'slides',
     src: '/product/slides_manager.png',
-    title: 'Менеджер слайдов',
-    badge: 'SLIDES',
+    title: 'Слайды и медиа',
+    badge: 'MEDIA',
     alt: 'Окно менеджера слайдов',
     left: '38%',
     top: '4%',
@@ -53,7 +53,7 @@ const cards: DeckCard[] = [
   {
     id: 'remote',
     src: '/product/remote_wind.png',
-    title: 'Remote',
+    title: 'Видео-контроль',
     badge: 'VIDEO',
     alt: 'Окно удаленного управления видео',
     left: '13%',
@@ -68,6 +68,10 @@ export function InteractiveDeck() {
   return (
     <div className="deck-stage" aria-label="Интерфейсы приложения BOSTONCREW SAMPLER">
       <div className="deck-gridlines" aria-hidden="true" />
+      <div className="deck-caption">
+        <span>Live-пульт</span>
+        <strong>Звук, слайды, видео и сцена рядом</strong>
+      </div>
 
       {cards.map((card) => {
         const style = {

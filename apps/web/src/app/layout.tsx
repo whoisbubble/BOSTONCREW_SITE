@@ -2,8 +2,9 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'BOSTONCREW SAMPLER',
-  description: 'Ключ для BOSTONCREW SAMPLER на одно устройство.',
+  title: 'BOSTONCREW SAMPLER - один пульт для live-мероприятий',
+  description:
+    'Запускайте сэмплы, слайды и видео из одного приложения. Бесплатный режим без ключа и полный доступ для live-событий.',
   metadataBase: new URL('https://bostoncrew.ru'),
   icons: {
     icon: [{ url: '/favicon.ico' }],

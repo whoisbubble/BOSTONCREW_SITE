@@ -50,18 +50,18 @@ export function CheckoutButton() {
   return (
     <form className="checkout" onSubmit={handleSubmit}>
       <div className="checkout-head">
-        <span>Доступ на одно устройство</span>
+        <span>Полный доступ на одно устройство</span>
         <strong>{price === null ? '...' : `${new Intl.NumberFormat('ru-RU').format(price)} RUB`}</strong>
       </div>
       <div className="checkout-row single">
         <button type="submit" disabled={loading}>
           {loading ? <Loader2 className="spin" size={18} /> : <ShieldCheck size={18} />}
-          <span>Купить ключ</span>
+          <span>Купить полный доступ</span>
           {!loading && <ArrowRight size={18} />}
         </button>
       </div>
       <p className="checkout-note">
-        После подтверждения оплаты ключ появится прямо на сайте. Нажимая кнопку, вы принимаете{' '}
+        После подтверждения оплаты ключ появится прямо на сайте. Введите его в приложении, чтобы снять ограничения. Нажимая кнопку, вы принимаете{' '}
         <a href="#legal">условия сервиса</a>.
       </p>
       {error && <p className="checkout-error">{error}</p>}
