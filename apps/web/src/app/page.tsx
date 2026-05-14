@@ -170,6 +170,7 @@ const downloadOptions = [
     icon: <Apple size={22} />,
     title: 'Mac OS x64',
     meta: 'DMG для Mac на Intel-процессорах. Подходит для старших моделей Mac.',
+    note: 'macOS может потребовать разрешить запуск непроверенного приложения.',
     fileName: 'boston-sampler-x64.dmg',
     href: '/download?file=boston-sampler-x64.dmg',
     badge: 'Intel',
@@ -178,6 +179,7 @@ const downloadOptions = [
     icon: <Cpu size={22} />,
     title: 'Mac OS ARM',
     meta: 'DMG для Mac на Apple Silicon: M1, M2, M3 и новее.',
+    note: 'macOS может потребовать разрешить запуск непроверенного приложения.',
     fileName: 'boston-sampler-arm.dmg',
     href: '/download?file=boston-sampler-arm.dmg',
     badge: 'Apple Silicon',
@@ -459,6 +461,7 @@ export default function Home() {
               </div>
               <h3>{option.title}</h3>
               <p>{option.meta}</p>
+              {option.note && <p className="download-warning">{option.note}</p>}
               <code>{option.fileName}</code>
               <a className="primary-link" href={option.href}>
                 <HardDriveDownload size={18} />
@@ -477,6 +480,17 @@ export default function Home() {
               формату. Когда захотите работать без ограничений, ключ можно купить здесь же.
             </p>
           </div>
+        </div>
+        <div className="gatekeeper-note">
+          <strong>Важно для Mac</strong>
+          <span>
+            Если macOS не открывает приложение и пишет, что оно повреждено или не может быть проверено, возможно
+            понадобится временно отключить Gatekeeper. Это снижает защиту системы, поэтому делайте так только если
+            доверяете файлу, и включите защиту обратно после установки. Инструкция есть на{' '}
+            <a href="https://appstorrent.ru/65-gatekeeper.html" target="_blank" rel="noreferrer">
+              appstorrent.ru
+            </a>.
+          </span>
         </div>
       </section>
 

@@ -560,6 +560,7 @@ details p,
 .free-panel,
 .download-card,
 .download-visual,
+.gatekeeper-note,
 .showcase-main,
 .mini-shot,
 .visual-story,
@@ -864,6 +865,13 @@ details,
   font-size: 0.82rem;
 }
 
+.download-warning {
+  border-left: 3px solid var(--amber);
+  padding: 0.55rem 0.7rem;
+  color: #ffe0a1;
+  background: rgba(245, 189, 79, 0.08);
+}
+
 .download-card .primary-link {
   width: 100%;
 }
@@ -893,6 +901,32 @@ details,
 .download-visual h3 {
   margin-top: 1rem;
   font-size: 1.55rem;
+}
+
+.gatekeeper-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  margin-top: 1rem;
+  padding: 1rem;
+  background:
+    linear-gradient(135deg, rgba(245, 189, 79, 0.11), transparent 56%),
+    var(--surface);
+}
+
+.gatekeeper-note strong {
+  flex: 0 0 auto;
+  color: var(--amber);
+}
+
+.gatekeeper-note span {
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.gatekeeper-note a {
+  color: var(--cyan);
+  font-weight: 850;
 }
 
 .free-section,
@@ -1514,6 +1548,10 @@ details p {
 
   .download-card {
     min-height: 0;
+  }
+
+  .gatekeeper-note {
+    flex-direction: column;
   }
 
   .compare-panel {
