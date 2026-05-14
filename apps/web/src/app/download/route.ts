@@ -8,11 +8,19 @@ export const dynamic = 'force-dynamic';
 
 const contentTypes: Record<string, string> = {
   '.7z': 'application/x-7z-compressed',
+  '.dmg': 'application/x-apple-diskimage',
   '.gz': 'application/gzip',
   '.rar': 'application/vnd.rar',
   '.tar': 'application/x-tar',
   '.zip': 'application/zip',
 };
+
+const downloadArchives = new Set([
+  'boston-sampler-installer.zip',
+  'boston-sampler-portable.zip',
+  'boston-sampler-x64.dmg',
+  'boston-sampler-arm.dmg',
+]);
 
 async function findArchive(configuredPath: string) {
   const archivePathCandidates = isAbsolute(configuredPath)
@@ -45,20 +53,29 @@ async function findArchive(configuredPath: string) {
   return { archivePath: archivePathCandidates[0], archiveStat: null };
 }
 
-export async function GET() {
-  const configuredPath =
-    process.env.DOWNLOAD_ARCHIVE_PATH ?? process.env.DOWNLOAD_ARCHIVE_NAME ?? 'bostoncrew-sampler.zip';
+export async function GET(request: Request) {
+  const requestedFile = new URL(request.url).searchParams.get('file');
+
+  if (requestedFile && (!downloadArchives.has(requestedFile) || requestedFile !== basename(requestedFile))) {
+    return new Response('Unknown download file.', { status: 400 });
+  }
+
+  const configuredPath = requestedFile
+    ? process.env.DOWNLOAD_DIR
+      ? resolve(process.env.DOWNLOAD_DIR, requestedFile)
+      : requestedFile
+    : (process.env.DOWNLOAD_ARCHIVE_PATH ?? process.env.DOWNLOAD_ARCHIVE_NAME ?? 'boston-sampler-installer.zip');
   const { archivePath, archiveStat } = await findArchive(configuredPath);
   const archiveName = basename(configuredPath);
   const extension = extname(archiveName).toLowerCase();
 
   if (!contentTypes[extension]) {
-    return new Response('Unsupported archive extension. Use .zip, .rar, .7z, .tar or .gz.', { status: 400 });
+    return new Response('Unsupported archive extension. Use .zip, .dmg, .rar, .7z, .tar or .gz.', { status: 400 });
   }
 
   if (!archiveStat) {
     return new Response(
-      `Archive not found. Put ${archiveName} in the project root or set DOWNLOAD_ARCHIVE_PATH.`,
+      `Archive not found. Put ${archiveName} in the project root or set DOWNLOAD_DIR/DOWNLOAD_ARCHIVE_PATH.`,
       { status: 404 },
     );
   }

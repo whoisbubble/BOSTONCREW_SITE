@@ -1,13 +1,17 @@
 import {
+  Apple,
   BadgeCheck,
   Check,
   CheckCircle2,
   Clock3,
+  Cpu,
   Download,
   Film,
   Gauge,
-  Layers3,
+  HardDriveDownload,
   MonitorPlay,
+  MonitorDown,
+  PackageOpen,
   Play,
   Presentation,
   RadioTower,
@@ -18,26 +22,10 @@ import {
   Users,
   Video,
   Volume2,
-  Zap,
 } from 'lucide-react';
 import { CheckoutButton } from '../components/CheckoutButton';
 import { InteractiveDeck } from '../components/InteractiveDeck';
 import { LegalTabs } from '../components/LegalTabs';
-
-const heroBenefits = [
-  {
-    icon: <Layers3 size={17} />,
-    text: 'Звук, видео и слайды в одном месте',
-  },
-  {
-    icon: <BadgeCheck size={17} />,
-    text: 'Бесплатный режим без ключа',
-  },
-  {
-    icon: <Zap size={17} />,
-    text: 'Для live-событий и быстрых запусков',
-  },
-];
 
 const tickerItems = [
   'Сэмплы',
@@ -46,6 +34,10 @@ const tickerItems = [
   'Cue-сетка',
   'Сценический экран',
   'Быстрые кнопки',
+  'Windows installer',
+  'Windows portable',
+  'macOS Intel',
+  'macOS Apple Silicon',
   'Бесплатный старт',
   'Полный доступ по ключу',
 ];
@@ -157,6 +149,59 @@ const workflow = [
   },
 ];
 
+const downloadOptions = [
+  {
+    icon: <MonitorDown size={22} />,
+    title: 'Установщик для Windows',
+    meta: 'Обычная установка в систему. Лучший вариант для большинства пользователей Windows.',
+    fileName: 'boston-sampler-installer.zip',
+    href: '/download?file=boston-sampler-installer.zip',
+    badge: 'Рекомендуем',
+  },
+  {
+    icon: <PackageOpen size={22} />,
+    title: 'Portable для Windows',
+    meta: 'Версия без установки: распакуйте архив и запускайте приложение из папки.',
+    fileName: 'boston-sampler-portable.zip',
+    href: '/download?file=boston-sampler-portable.zip',
+    badge: 'Без установки',
+  },
+  {
+    icon: <Apple size={22} />,
+    title: 'Mac OS x64',
+    meta: 'DMG для Mac на Intel-процессорах. Подходит для старших моделей Mac.',
+    fileName: 'boston-sampler-x64.dmg',
+    href: '/download?file=boston-sampler-x64.dmg',
+    badge: 'Intel',
+  },
+  {
+    icon: <Cpu size={22} />,
+    title: 'Mac OS ARM',
+    meta: 'DMG для Mac на Apple Silicon: M1, M2, M3 и новее.',
+    fileName: 'boston-sampler-arm.dmg',
+    href: '/download?file=boston-sampler-arm.dmg',
+    badge: 'Apple Silicon',
+  },
+];
+
+const visualStories = [
+  {
+    src: '/product/host_wind.png',
+    title: 'Чистый экран для зала',
+    text: 'Зрители видят сцену и контент, а не рабочие папки и служебные окна.',
+  },
+  {
+    src: '/product/slides_manager.png',
+    title: 'Слайды и медиа рядом',
+    text: 'Сценарий мероприятия собирается заранее, чтобы в моменте не искать файлы.',
+  },
+  {
+    src: '/product/slide_cue.png',
+    title: 'Cue-моменты',
+    text: 'Подготовленные переходы и вставки помогают запускать шоу увереннее.',
+  },
+];
+
 const comparisonRows = [
   ['Запуск приложения', 'Да', 'Да'],
   ['Базовое знакомство с интерфейсом', 'Да', 'Да'],
@@ -170,23 +215,23 @@ const comparisonRows = [
 const trustItems = [
   {
     icon: <CheckCircle2 size={19} />,
-    title: 'Сделано под live-сценарии',
-    text: 'Фокус на быстрых запусках, сценическом экране и работе в моменте.',
+    title: 'Понятно за один прогон',
+    text: 'Скачайте приложение и соберите тестовый сценарий, чтобы увидеть пользу до покупки.',
   },
   {
     icon: <Download size={19} />,
-    title: 'Можно начать бесплатно',
-    text: 'Скачайте приложение и проверьте логику пульта до покупки.',
+    title: 'Есть версия под вашу систему',
+    text: 'На странице доступны установщик Windows, portable-архив и две сборки для Mac.',
   },
   {
     icon: <ShieldCheck size={19} />,
-    title: 'Ключ приходит после оплаты',
-    text: 'После подтверждения платежа ключ появляется на сайте.',
+    title: 'Покупка открывает рабочий режим',
+    text: 'Ключ снимает ограничения и превращает пробный пульт в инструмент для реальных событий.',
   },
   {
     icon: <BadgeCheck size={19} />,
-    title: 'Карты не хранятся на сайте',
-    text: 'Оплата проходит через платежного провайдера, сайт работает с результатом заказа.',
+    title: 'Оплата через провайдера',
+    text: 'Сайт не хранит банковские карты, а после подтверждения оплаты показывает ключ доступа.',
   },
 ];
 
@@ -245,11 +290,12 @@ export default function Home() {
         <nav>
           <a href="#problem">Зачем</a>
           <a href="#features">Возможности</a>
+          <a href="#download">Скачать</a>
           <a href="#free">Бесплатно</a>
           <a href="#full-access">Полный доступ</a>
           <a href="#faq">FAQ</a>
         </nav>
-        <a className="header-cta" href="/download">
+        <a className="header-cta" href="#download">
           <Download size={16} />
           Скачать
         </a>
@@ -258,18 +304,17 @@ export default function Home() {
       <section id="top" className="hero">
         <div className="hero-copy">
           <div className="hero-badges" aria-label="Ключевые преимущества">
-            <span>Бесплатный режим</span>
-            <span>Для live-событий</span>
+            <span>Можно попробовать бесплатно</span>
             <span>Один пульт</span>
+            <span>Ключ для полного режима</span>
           </div>
-          <p className="eyebrow">Desktop-приложение для мероприятий, квизов и шоу</p>
-          <h1>Один пульт вместо десятка открытых окон</h1>
+          <p className="eyebrow">BOSTONCREW SAMPLER</p>
+          <h1>Запускайте шоу из одного пульта</h1>
           <p className="hero-lead">
-            Запускайте звук, слайды и видео во время мероприятия из одного приложения. Без хаоса, лишних вкладок
-            и ручного поиска файлов в самый неподходящий момент.
+            Сэмплы, слайды, видео и экран для зрителей в одном desktop-приложении.
           </p>
           <div className="hero-actions">
-            <a className="primary-link" href="/download">
+            <a className="primary-link" href="#download">
               <Download size={18} />
               Скачать бесплатно
             </a>
@@ -277,14 +322,6 @@ export default function Home() {
               <ShieldCheck size={18} />
               Купить полный доступ
             </a>
-          </div>
-          <div className="hero-facts">
-            {heroBenefits.map((benefit) => (
-              <span key={benefit.text}>
-                {benefit.icon}
-                {benefit.text}
-              </span>
-            ))}
           </div>
         </div>
 
@@ -389,6 +426,58 @@ export default function Home() {
             </figure>
           </div>
         </div>
+        <div className="visual-story-grid">
+          {visualStories.map((story) => (
+            <figure className="visual-story reveal-card" key={story.title}>
+              <img src={story.src} alt={story.title} />
+              <figcaption>
+                <strong>{story.title}</strong>
+                <span>{story.text}</span>
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </section>
+
+      <section id="download" className="download-section section-pad">
+        <div className="section-heading split-heading">
+          <div>
+            <p className="eyebrow">Скачать приложение</p>
+            <h2>Выберите версию под свой компьютер</h2>
+          </div>
+          <p>
+            Скачивание бесплатное. Установите приложение, проверьте свой сценарий, а полный доступ откройте ключом,
+            когда поймёте, что BOSTONCREW SAMPLER подходит для ваших событий.
+          </p>
+        </div>
+        <div className="download-grid">
+          {downloadOptions.map((option) => (
+            <article className="download-card reveal-card" key={option.fileName}>
+              <div className="download-card-head">
+                <div className="download-icon">{option.icon}</div>
+                <span>{option.badge}</span>
+              </div>
+              <h3>{option.title}</h3>
+              <p>{option.meta}</p>
+              <code>{option.fileName}</code>
+              <a className="primary-link" href={option.href}>
+                <HardDriveDownload size={18} />
+                Скачать
+              </a>
+            </article>
+          ))}
+        </div>
+        <div className="download-visual reveal-card">
+          <img src="/product/main_wind.png" alt="Главный экран BOSTONCREW SAMPLER" />
+          <div>
+            <span className="panel-label">Бесплатный старт</span>
+            <h3>Сначала проверьте продукт на своём мероприятии</h3>
+            <p>
+              Скачайте сборку под свою систему, соберите небольшой сценарий и убедитесь, что пульт подходит вашему
+              формату. Когда захотите работать без ограничений, ключ можно купить здесь же.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section className="audience-section section-pad">
@@ -416,7 +505,7 @@ export default function Home() {
             разобраться с пультом, проверить сценарий работы и понять, подходит ли инструмент под ваши мероприятия.
           </p>
           <div className="section-actions">
-            <a className="primary-link" href="/download">
+            <a className="primary-link" href="#download">
               <Download size={18} />
               Скачать бесплатно
             </a>
@@ -561,8 +650,8 @@ export default function Home() {
 
       <section className="trust-section section-pad">
         <div className="section-heading">
-          <p className="eyebrow">Доверие без выдуманных отзывов</p>
-          <h2>Честные факты вместо фейковых кейсов</h2>
+          <p className="eyebrow">Почему хочется купить</p>
+          <h2>Сначала видите пользу, потом открываете полный доступ</h2>
         </div>
         <div className="trust-grid">
           {trustItems.map((item) => (
@@ -574,8 +663,8 @@ export default function Home() {
           ))}
         </div>
         <div className="reviews-placeholder">
-          <strong>Отзывы появятся здесь</strong>
-          <span>Добавьте реальные короткие отзывы или кейсы, когда они будут готовы. На странице нет выдуманных цитат.</span>
+          <strong>Логика простая</strong>
+          <span>Скачайте подходящую сборку, попробуйте интерфейс на своих материалах и покупайте ключ, когда готовы работать без ограничений.</span>
         </div>
       </section>
 
@@ -604,7 +693,7 @@ export default function Home() {
           </p>
         </div>
         <div className="section-actions">
-          <a className="primary-link" href="/download">
+          <a className="primary-link" href="#download">
             <Download size={18} />
             Скачать бесплатно
           </a>
@@ -633,7 +722,7 @@ export default function Home() {
       </footer>
 
       <div className="mobile-cta" aria-label="Быстрые действия">
-        <a className="primary-link" href="/download">
+        <a className="primary-link" href="#download">
           Скачать бесплатно
         </a>
         <a className="secondary-link" href="#full-access">
